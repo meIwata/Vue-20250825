@@ -26,7 +26,7 @@
           <td>{{ student.email }}</td>
           <td>{{ student.birthday }}</td>
           <td>
-            <router-link :to="`/students/${student.studentId}/edit`" class="btn">編輯</router-link>
+            <button class="btn" @click="edit(student.studentId)">編輯</button>
             <button class="btn danger" @click="remove(student.studentId)">刪除</button>
           </td>
         </tr>
@@ -39,10 +39,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { fetchStudents, deleteStudent } from '@/api/students'
 
 const students = ref([])
 const error = ref('')
+const router = useRouter()
 
 // 非同步函式
 async function load() {
@@ -54,6 +56,10 @@ async function load() {
   } catch (e) {
     error.value = e?.response?.data?.message || e.message
   }
+}
+
+function edit(id) {
+  router.push(`/students/${id}/edit`)
 }
 
 async function remove(id) {
