@@ -61,7 +61,7 @@ function edit(id) {
 }
 
 async function remove(id) {
-  if (!confirm('Delete this teacher?')) return
+  if (!confirm(`要刪除id=${id}老師嗎?`)) return
   try {
     await deleteTeacher(id)
     await load()

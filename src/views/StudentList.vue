@@ -63,7 +63,7 @@ function edit(id) {
 }
 
 async function remove(id) {
-  if (!confirm(`要刪除${id}學生嗎?`)) return
+  if (!confirm(`要刪除id=${id}學生嗎?`)) return
   try {
     await deleteStudent(id)
     await load()
