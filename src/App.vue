@@ -6,7 +6,7 @@ import HelloWorld from './components/HelloWorld.vue'
 <template>
   <div>
     <nav>
-      <RouterLink to="/">學生管理</RouterLink> | <RouterLink to="/">教師管理</RouterLink> |
+      <RouterLink to="/">學生管理</RouterLink> | <RouterLink to="/teachers">教師管理</RouterLink> |
       <RouterLink to="/">課程管理</RouterLink> |
       <RouterLink to="/">選課管理</RouterLink>
     </nav>
