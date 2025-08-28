@@ -5,7 +5,6 @@
       <input v-model="studentId" type="text" placeholder="請輸入學生ID" />
       <button @click="fetchStudent">查詢</button>
     </div>
-    <div v-if="loading">查詢中...</div>
     <div v-if="error" class="error">{{ error }}</div>
     <div v-if="student">
       <h3>學生資料</h3>
@@ -18,40 +17,33 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
 import { getStudent } from '../api/students'
 
-export default {
-  name: 'GetStudentById',
-  data() {
-    return {
-      studentId: '',
-      student: null,
-      error: '',
-      loading: false
+const studentId = ref('')
+const student = ref(null)
+const error = ref('')
+const loading = ref(false)
+
+async function fetchStudent() {
+  error.value = ''
+  student.value = null
+  if (!studentId.value) {
+    error.value = '請輸入學生ID'
+    return
+  }
+  loading.value = true
+  try {
+    const res = await getStudent(studentId.value)
+    student.value = res.data
+    if (!student.value) {
+      error.value = '查無此學生'
     }
-  },
-  methods: {
-    async fetchStudent() {
-      this.error = ''
-      this.student = null
-      if (!this.studentId) {
-        this.error = '請輸入學生ID'
-        return
-      }
-      this.loading = true
-      try {
-        const res = await getStudent(this.studentId)
-        this.student = res.data
-        if (!this.student) {
-          this.error = '查無此學生'
-        }
-      } catch (e) {
-        this.error = '查詢失敗或查無此學生'
-      } finally {
-        this.loading = false
-      }
-    }
+  } catch (e) {
+    error.value = '查詢失敗或查無此學生'
+  } finally {
+    loading.value = false
   }
 }
 </script>
