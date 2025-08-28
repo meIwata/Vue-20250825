@@ -1,33 +1,31 @@
 <template>
   <div class="container">
-    <h1 class="title">學生列表</h1>
+    <h1 class="title">教師列表</h1>
 
     <div class="toolbar">
-      <router-link class="btn" to="/students/new">+ 新增學生</router-link>
-      <router-link class="btn" to="/students/search">查詢學生</router-link>
+      <router-link class="btn" to="/teachers/new">+ 新增教師</router-link>
+      <router-link class="btn" to="/teachers/search">查詢教師</router-link>
     </div>
 
     <table class="table">
       <thead>
         <tr>
-          <th>學號</th>
-          <th>名</th>
-          <th>姓</th>
+          <th>教師ID</th>
+          <th>姓名</th>
           <th>電子郵件</th>
-          <th>生日</th>
+          <th>年齡</th>
           <th>操作</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="student in students" :key="student.studentId">
-          <td>{{ student.studentId }}</td>
-          <td>{{ student.firstName }}</td>
-          <td>{{ student.lastName }}</td>
-          <td>{{ student.email }}</td>
-          <td>{{ student.birthday }}</td>
+        <tr v-for="teacher in teachers" :key="teacher.teacherId">
+          <td>{{ teacher.teacherId }}</td>
+          <td>{{ teacher.name }}</td>
+          <td>{{ teacher.email }}</td>
+          <td>{{ teacher.age }}</td>
           <td>
-            <button class="btn" @click="edit(student.studentId)">編輯</button>
-            <button class="btn danger" @click="remove(student.studentId)">刪除</button>
+            <button class="btn" @click="edit(teacher.teacherId)">編輯</button>
+            <button class="btn danger" @click="remove(teacher.teacherId)">刪除</button>
           </td>
         </tr>
       </tbody>
@@ -40,9 +38,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { fetchStudents, deleteStudent } from '@/api/students'
+import { fetchTeachers, deleteTeacher } from '@/api/teacher'
 
-const students = ref([])
+const teachers = ref([])
 const error = ref('')
 const router = useRouter()
 
@@ -50,22 +48,22 @@ const router = useRouter()
 async function load() {
   error.value = ''
   try {
-    const { data } = await fetchStudents()
-    students.value = data
-    console.log(students.value[0])
+    const { data } = await fetchTeachers()
+    teachers.value = data
+    console.log(teachers.value[0])
   } catch (e) {
     error.value = e?.response?.data?.message || e.message
   }
 }
 
 function edit(id) {
-  router.push(`/students/${id}/edit`)
+  router.push(`/teachers/${id}/edit`)
 }
 
 async function remove(id) {
-  if (!confirm(`要刪除${id}學生嗎?`)) return
+  if (!confirm('Delete this teacher?')) return
   try {
-    await deleteStudent(id)
+    await deleteTeacher(id)
     await load()
   } catch (e) {
     error.value = e?.response?.data?.message || e.message
