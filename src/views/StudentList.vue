@@ -4,6 +4,7 @@
 
     <div class="toolbar">
       <router-link class="btn" to="/students/new">+ 新增學生</router-link>
+      <router-link class="btn" to="/students/search">查詢學生</router-link>
     </div>
 
     <table class="table">
