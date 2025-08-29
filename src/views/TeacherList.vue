@@ -7,7 +7,9 @@
       <router-link class="btn" to="/teachers/search">使用教師ID做查詢</router-link>
       <router-link class="btn" to="/teachers/age">使用教師年齡做查詢</router-link>
     </div>
-
+    <div>
+      共有 {{ teachers.length }} 筆資料
+    </div>
     <table class="table">
       <thead>
         <tr>

@@ -9,6 +9,7 @@
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else-if="teachers && teachers.length > 0">
       <h3>查詢結果：</h3>
+      <div>共有 {{ teachers.length }} 筆符合資料</div>
       <ul>
         <li v-for="t in teachers" :key="t.teacherId">
           教師ID: {{ t.teacherId }}<br>

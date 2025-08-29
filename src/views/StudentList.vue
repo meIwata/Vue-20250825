@@ -6,11 +6,14 @@
       <router-link class="btn" to="/students/new">+ 新增學生</router-link>
       <router-link class="btn" to="/students/search">使用學生ID做查詢</router-link>
     </div>
+    <div>
+      共有 {{ students.length }} 筆資料
+    </div>
 
     <table class="table">
       <thead>
         <tr>
-          <th>學號</th>
+          <th>學生ID</th>
           <th>名</th>
           <th>姓</th>
           <th>電子郵件</th>
