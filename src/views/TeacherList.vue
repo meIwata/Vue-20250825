@@ -5,6 +5,7 @@
     <div class="toolbar">
       <router-link class="btn" to="/teachers/new">+ 新增教師</router-link>
       <router-link class="btn" to="/teachers/search">使用教師ID做查詢</router-link>
+      <router-link class="btn" to="/teachers/age">使用教師年齡做查詢</router-link>
     </div>
 
     <table class="table">
