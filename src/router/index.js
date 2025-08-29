@@ -9,7 +9,7 @@ import GetTeachersByAge from '@/views/GetTeachersByAge.vue'
 import TeacherForm from '@/views/TeacherForm.vue'
 import GetStudentsByLastName from '@/views/GetStudentsByLastName.vue'
 import GetStudentByEmail from '@/views/GetStudentByEmail.vue'
-
+import CourseList from '@/views/CourseList.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +32,9 @@ const router = createRouter({
     { path: '/teachers/age', name: 'teachers-age', component: GetTeachersByAge },
     { path: '/teachers/new', name: 'teachers-new', component: TeacherForm},
     { path: '/teachers/:id/edit', name: 'teachers-edit', component: TeacherForm, props: true },
+
+    { path: '/courses', name: 'courses', component: CourseList }
+
 
   ],
 })
