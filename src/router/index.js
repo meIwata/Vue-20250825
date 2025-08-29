@@ -7,6 +7,7 @@ import TeacherList from '@/views/TeacherList.vue'
 import GetTeacherById from '@/views/GetTeacherById.vue'
 import GetTeachersByAge from '@/views/GetTeachersByAge.vue'
 import TeacherForm from '@/views/TeacherForm.vue'
+import getStudentsByLastName from '@/views/getStudentsByLastName.vue'
 
 
 const router = createRouter({
@@ -22,6 +23,8 @@ const router = createRouter({
     { path: '/students/new', name: 'students-new', component: StudentForm },
     { path: '/students/:id/edit', name: 'students-edit', component: StudentForm, props: true },
     { path: '/students/search', name: 'students-search', component: GetStudentById },
+    { path: '/students/lastname', name: 'students-lastname', component: getStudentsByLastName },
+
     { path: '/teachers', name: 'teachers', component: TeacherList},
     { path: '/teachers/search', name: 'teachers-search', component: GetTeacherById },
     { path: '/teachers/age', name: 'teachers-age', component: GetTeachersByAge },

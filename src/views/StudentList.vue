@@ -5,6 +5,7 @@
     <div class="toolbar">
       <router-link class="btn" to="/students/new">+ 新增學生</router-link>
       <router-link class="btn" to="/students/search">使用學生ID做查詢</router-link>
+      <router-link class="btn" to="/students/lastname">依姓氏查詢學生</router-link>
     </div>
     <div>
       共有 {{ students.length }} 筆資料

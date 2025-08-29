@@ -11,6 +11,16 @@ export function getStudent(id) {
   return http.get(`/students/${id}`)
 }
 
+// 根據姓氏查詢學生
+export function getStudentsByLastName(lastName) {
+  return http.get(`/students/lastname/${lastName}`)
+}
+
+// 根據email查詢學生
+export function getStudentsByEmail(email) {
+  return http.get(`/students/email/${email}`)
+}
+
 // 新增學生資料
 export function createStudent(data) {
   return http.post('/students', data)
