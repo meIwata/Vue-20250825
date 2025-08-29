@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import { getTeachersByAge } from '@/api/teacher'
 
 const age = ref('')
 const teachers = ref(null)
@@ -43,7 +43,7 @@ async function fetchTeachers() {
   }
   loading.value = true
   try {
-    const res = await axios.get(`http://localhost:8080/api/teachers/age/${age.value}`)
+    const res = await getTeachersByAge(age.value)
     teachers.value = res.data
     if (!teachers.value || teachers.value.length === 0) {
       teachers.value = []

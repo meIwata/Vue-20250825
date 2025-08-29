@@ -18,7 +18,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import { getTeacher } from '@/api/teacher'
 
 const teacherId = ref('')
 const teacher = ref(null)
@@ -34,7 +34,7 @@ async function fetchTeacher() {
   }
   loading.value = true
   try {
-    const res = await axios.get(`http://localhost:8080/api/teachers/${teacherId.value}`)
+    const res = await getTeacher(teacherId.value)
     teacher.value = res.data
     if (!teacher.value) {
       error.value = '查無此教師'
