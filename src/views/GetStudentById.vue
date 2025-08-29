@@ -7,8 +7,8 @@
     </div>
     <div v-if="error" class="error">{{ error }}</div>
     <div v-if="student">
-      <h3>學生資料</h3>
-      <p>ID: {{ student.studentId }}</p>
+      <h3>查詢結果：</h3>
+      <p>學生ID: {{ student.studentId }}</p>
       <p>姓: {{ student.lastName }}</p>
       <p>名: {{ student.firstName }}</p>
       <p>email: {{ student.email }}</p>
