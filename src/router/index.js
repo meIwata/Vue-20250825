@@ -26,7 +26,7 @@ const router = createRouter({
     { path: '/teachers/search', name: 'teachers-search', component: GetTeacherById },
     { path: '/teachers/age', name: 'teachers-age', component: GetTeachersByAge },
     { path: '/teachers/new', name: 'teachers-new', component: TeacherForm},
-    { path: '/teachers/:id/edit', name: 'teachers-edit', component: StudentForm, props: true },
+    { path: '/teachers/:id/edit', name: 'teachers-edit', component: TeacherForm, props: true },
 
   ],
 })
