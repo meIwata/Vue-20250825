@@ -1,54 +1,54 @@
 <template>
   <div class="container">
-    <h1 class="title">{{ isEdit ? '編輯學生資訊' : '新增學生' }}</h1>
+    <h1 class="title">{{ isEdit.value ? '編輯課程' : '新增課程' }}</h1>
     <form @submit.prevent="submit">
-      <label>名字</label>
-      <input v-model.trim="form.firstName" required maxlength="100" />
+      <label>課程名稱</label>
+      <input v-model.trim="form.courseName" required maxlength="100" />
 
-      <label>姓氏</label>
-      <input v-model.trim="form.lastName" required maxlength="100" />
+      <label>學分</label>
+      <input type="number" v-model.number="form.credits" required min="1" max="10" />
 
-      <label>電子郵件</label>
-      <input v-model.trim="form.email" type="email" required maxlength="150" />
-
-      <label>生日</label>
-      <input v-model.trim="form.birthday" type="date" required />
+      <label>課程說明</label>
+      <textarea v-model.trim="form.courseDescription" maxlength="500"></textarea>
 
       <div class="actions">
-        <button class="btn" type="submit">{{ isEdit ? '更新' : '建立' }}</button>
+        <button class="btn" type="submit">{{ isEdit.value ? '更新' : '建立' }}</button>
         <button class="btn" type="button" @click="goBack">返回</button>
       </div>
 
       <p v-if="error" class="error">{{ error }}</p>
     </form>
+    <p v-if="loading">載入中...</p>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getStudent, createStudent, updateStudent } from '@/api/students'
+import { getCourse, createCourse, updateCourse } from '@/api/course'
 
 const route = useRoute()
 const router = useRouter()
-
 const id = route.params.id
 const isEdit = computed(() => !!id)
-const form = ref({ firstName: '', lastName: '', email: '', birthday: '' })
+const form = ref({ courseName: '', credits: 1, courseDescription: '' })
 const error = ref('')
+const loading = ref(false)
 
 onMounted(async () => {
   if (isEdit.value) {
+    loading.value = true
     try {
-      const { data } = await getStudent(id)
+      const { data } = await getCourse(id)
       form.value = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        birthday: data.birthday,
+        courseName: data.courseName || '',
+        credits: data.credits || 1,
+        courseDescription: data.courseDescription || ''
       }
     } catch (e) {
       error.value = e?.response?.data?.message || e.message
+    } finally {
+      loading.value = false
     }
   }
 })
@@ -57,13 +57,12 @@ async function submit() {
   error.value = ''
   try {
     if (isEdit.value) {
-      await updateStudent(id, form.value)
+      await updateCourse(id, form.value)
     } else {
-      await createStudent(form.value)
+      await createCourse(form.value)
     }
-    router.push('/students')
+    router.push('/courses')
   } catch (e) {
-    // 顯示後端驗證訊息
     if (e?.response?.data?.fields) {
       const msgs = Object.entries(e.response.data.fields).map(([k, v]) => `${k}: ${v}`)
       error.value = msgs.join(' | ')
@@ -74,7 +73,7 @@ async function submit() {
 }
 
 function goBack() {
-  router.push('/students')
+  router.push('/courses')
 }
 </script>
 
@@ -99,7 +98,7 @@ label {
   font-weight: 600;
 }
 
-input {
+input, textarea {
   padding: 6px;
   border: 1px solid #ccc;
   border-radius: 4px;

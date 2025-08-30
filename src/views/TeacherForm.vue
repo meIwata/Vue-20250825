@@ -13,7 +13,7 @@
 
       <div class="actions">
         <button class="btn" type="submit">{{ isEdit ? '更新' : '建立' }}</button>
-        <router-link class="btn" to="/teachers">返回</router-link>
+        <button class="btn" type="button" @click="goBack">返回</button>
       </div>
 
       <p v-if="error" class="error">{{ error }}</p>
@@ -67,6 +67,10 @@ async function submit() {
     }
   }
 }
+
+function goBack() {
+  router.push('/teachers')
+}
 </script>
 
 <style scoped>
@@ -115,4 +119,3 @@ input {
   color: #c33;
 }
 </style>
-

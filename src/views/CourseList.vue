@@ -23,7 +23,7 @@
         <tr v-for="course in courses" :key="course.courseId">
           <td>{{ course.courseId }}</td>
           <td>{{ course.courseName }}</td>
-          <td>{{ course.teacher.name }}</td>
+          <td>{{ course.teacher ? course.teacher.name : '未分配' }}</td>
           <td>{{ course.credits }}</td>
           <td>
             <span v-if="course.courseDescription === null">老師目前沒有公布其他訊息</span>
