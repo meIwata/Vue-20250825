@@ -24,7 +24,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getTeacher, createTeacher, updateTeacher } from '@/api/teacher'
+import { getTeacher, createTeacher, updateTeacher } from '@/api/teachers.js'
 
 const route = useRoute()
 const router = useRouter()

@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getTeachersByAge } from '@/api/teacher'
+import { getTeachersByAge } from '@/api/teachers.js'
 
 const age = ref('')
 const teachers = ref(null)

@@ -41,7 +41,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { fetchTeachers, deleteTeacher } from '@/api/teacher'
+import { fetchTeachers, deleteTeacher } from '@/api/teachers.js'
 
 const teachers = ref([])
 const error = ref('')

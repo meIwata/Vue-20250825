@@ -18,7 +18,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getTeacher } from '@/api/teacher'
+import { getTeacher } from '@/api/teachers.js'
 
 const teacherId = ref('')
 const teacher = ref(null)

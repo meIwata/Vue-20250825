@@ -33,8 +33,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getCourse, createCourse, updateCourse } from '@/api/course'
-import { fetchTeachers } from '@/api/teacher'
+import { getCourse, createCourse, updateCourse } from '@/api/courses.js'
+import { fetchTeachers } from '@/api/teachers.js'
 
 const route = useRoute()
 const router = useRouter()

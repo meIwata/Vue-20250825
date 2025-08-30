@@ -18,7 +18,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getCourse } from '@/api/course'
+import { getCourse } from '@/api/courses.js'
 
 const courseId = ref('')
 const course = ref(null)
