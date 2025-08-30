@@ -3,12 +3,7 @@
     <h1 class="title">{{ isEdit ? '編輯選課' : '新增選課' }}</h1>
     <form @submit.prevent="submit">
       <label>學生</label>
-      <select v-model="form.studentId" required>
-        <option value="" disabled>請選擇學生</option>
-        <option v-for="student in students" :key="student.studentId" :value="student.studentId">
-          {{ student.name }} (ID: {{ student.studentId }})
-        </option>
-      </select>
+      <input type="text" :value="getStudentName(form.studentId)" readonly class="readonly-field" />
 
       <label>課程</label>
       <select v-model="form.courseId" required>
@@ -135,6 +130,11 @@ function isCourseDisabled(courseId) {
   // 已選過且不是目前編輯的課程則反灰
   return selectedCourseIds.value.includes(courseId)
 }
+
+function getStudentName(studentId) {
+  const student = students.value.find(s => s.studentId === Number(studentId))
+  return student ? `${student.firstName} ${student.lastName} (ID: ${student.studentId})` : ''
+}
 </script>
 
 <style scoped>
@@ -174,5 +174,9 @@ input, textarea, select {
 }
 .error {
   color: #c33;
+}
+.readonly-field {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
 }
 </style>
