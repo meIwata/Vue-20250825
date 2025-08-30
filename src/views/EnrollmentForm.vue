@@ -3,7 +3,17 @@
     <h1 class="title">{{ isEdit ? '編輯選課' : '新增選課' }}</h1>
     <form @submit.prevent="submit">
       <label>學生</label>
-      <input type="text" :value="getStudentName(form.studentId)" readonly class="readonly-field" />
+      <template v-if="isEdit">
+        <input type="text" :value="getStudentName(form.studentId)" readonly class="readonly-field" />
+      </template>
+      <template v-else>
+        <select v-model="form.studentId" required>
+          <option value="" disabled>請選擇學生</option>
+          <option v-for="student in students" :key="student.studentId" :value="student.studentId">
+            {{ student.firstName }} {{ student.lastName }} (ID: {{ student.studentId }})
+          </option>
+        </select>
+      </template>
 
       <label>課程</label>
       <select v-model="form.courseId" required>

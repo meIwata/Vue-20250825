@@ -43,6 +43,7 @@ const router = createRouter({
     { path: '/courses/search', name: 'courses-search', component: GetCourseById },
 
     { path: '/enrollments', name: 'enrollments', component: EnrollmentList },
+    { path: '/enrollments/new', name: 'enrollments-new', component: EnrollmentForm },
     { path: '/enrollments/:studentId/:courseId/edit', name: 'enrollments-edit', component: EnrollmentForm, props: true },
 
 

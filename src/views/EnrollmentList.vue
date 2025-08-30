@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title">選課列表</h1>
     <div class="toolbar">
-      <!-- 可加上新增選課或查詢功能按鈕，依需求擴充 -->
+      <router-link class="btn" to="/enrollments/new">+ 新增選課</router-link>
     </div>
     <div>
       共有 {{ enrollments.length }} 筆資料
