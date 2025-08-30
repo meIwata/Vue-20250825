@@ -13,7 +13,7 @@
       <label>課程</label>
       <select v-model="form.courseId" required>
         <option value="" disabled>請選擇課程</option>
-        <option v-for="course in courses" :key="course.courseId" :value="course.courseId">
+        <option v-for="course in courses" :key="course.courseId" :value="course.courseId" :disabled="isCourseDisabled(course.courseId)">
           {{ course.courseName }} (ID: {{ course.courseId }})
         </option>
       </select>
@@ -32,7 +32,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { fetchEnrollments, getEnrollment, createEnrollment, updateEnrollment } from '@/api/enrollments.js'
+import { fetchEnrollments, getEnrollment, createEnrollment, updateEnrollment, deleteEnrollment } from '@/api/enrollments.js'
 import { fetchStudents } from '@/api/students.js'
 import { fetchCourses } from '@/api/courses.js'
 
@@ -46,6 +46,7 @@ const error = ref('')
 const loading = ref(false)
 const students = ref([])
 const courses = ref([])
+const selectedCourseIds = ref([])
 
 onMounted(async () => {
   loading.value = true
@@ -56,6 +57,11 @@ onMounted(async () => {
     // 取得所有課程
     const { data: courseList } = await fetchCourses()
     courses.value = courseList
+    // 取得該學生已選課程（排除正在編輯的這筆）
+    const { data: enrollments } = await fetchEnrollments()
+    selectedCourseIds.value = enrollments
+      .filter(e => e.student.studentId === Number(studentId) && e.course.courseId !== Number(courseId))
+      .map(e => e.course.courseId)
     // 編輯模式時，取得選課資料
     if (isEdit.value) {
       const { data } = await getEnrollment(studentId, courseId)
@@ -75,7 +81,38 @@ async function submit() {
   error.value = ''
   try {
     if (isEdit.value) {
-      await updateEnrollment({ studentId: form.value.studentId, courseId: form.value.courseId })
+      // 取得原主鍵
+      const originalStudentId = studentId
+      const originalCourseId = courseId
+      // 取得表單主鍵
+      const newStudentId = form.value.studentId
+      const newCourseId = form.value.courseId
+      // 取得當下日期 yyyy-MM-ddTHH:mm:ss
+      const now = new Date()
+      const yyyy = now.getFullYear()
+      const mm = String(now.getMonth() + 1).padStart(2, '0')
+      const dd = String(now.getDate()).padStart(2, '0')
+      const hh = String(now.getHours()).padStart(2, '0')
+      const min = String(now.getMinutes()).padStart(2, '0')
+      const ss = String(now.getSeconds()).padStart(2, '0')
+      const enrollDate = `${yyyy}-${mm}-${dd}T${hh}:${min}:${ss}`
+      if (originalStudentId !== newStudentId || originalCourseId !== newCourseId) {
+        // 主鍵有變動，執行刪除+新增
+        await deleteEnrollment(originalStudentId, originalCourseId)
+        await createEnrollment(newStudentId, newCourseId)
+      } else {
+        // 主鍵未變動，只更新日期
+        const enrollment = {
+          id: {
+            studentId: newStudentId,
+            courseId: newCourseId
+          },
+          enrollDate,
+          student: null,
+          course: null
+        }
+        await updateEnrollment(newStudentId, newCourseId, enrollment)
+      }
     } else {
       await createEnrollment(form.value.studentId, form.value.courseId)
     }
@@ -92,6 +129,11 @@ async function submit() {
 
 function goBack() {
   router.push('/enrollments')
+}
+
+function isCourseDisabled(courseId) {
+  // 已選過且不是目前編輯的課程則反灰
+  return selectedCourseIds.value.includes(courseId)
 }
 </script>
 

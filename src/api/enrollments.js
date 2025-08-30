@@ -16,8 +16,8 @@ export function createEnrollment(studentId, courseId) {
 }
 
 // 更新選課資料
-export function updateEnrollment(enrollment) {
-  return http.put('/enrollments', enrollment);
+export function updateEnrollment(studentId, courseId, enrollment) {
+  return http.put(`/enrollments/${studentId}/${courseId}`, enrollment);
 }
 
 // 刪除選課資料
