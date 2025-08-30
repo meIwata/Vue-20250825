@@ -4,6 +4,7 @@
 
     <div class="toolbar">
       <router-link class="btn" to="/courses/new">+ 新增課程</router-link>
+      <router-link class="btn" to="/courses/search">使用課程ID做查詢</router-link>
     </div>
     <div>
       共有 {{ courses.length }} 筆資料
