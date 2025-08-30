@@ -13,6 +13,7 @@ import CourseList from '@/views/CourseList.vue'
 import CourseForm from '@/views/CourseForm.vue'
 import GetCourseById from '@/views/GetCourseById.vue'
 import EnrollmentList from '@/views/EnrollmentList.vue'
+import EnrollmentForm from '@/views/EnrollmentForm.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,6 +43,7 @@ const router = createRouter({
     { path: '/courses/search', name: 'courses-search', component: GetCourseById },
 
     { path: '/enrollments', name: 'enrollments', component: EnrollmentList },
+    { path: '/enrollments/:studentId/:courseId/edit', name: 'enrollments-edit', component: EnrollmentForm, props: true },
 
 
   ],
