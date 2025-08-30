@@ -1,7 +1,7 @@
 import http from './http'
 
 // 查詢所有課程
-export function getCourses() {
+export function fetchCourses() {
   return http.get('/courses')
 }
 

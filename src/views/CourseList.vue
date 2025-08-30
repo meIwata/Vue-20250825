@@ -45,7 +45,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getCourses, deleteCourse } from '@/api/courses.js'
+import { fetchCourses, deleteCourse } from '@/api/courses.js'
 
 const courses = ref([])
 const error = ref('')
@@ -54,7 +54,7 @@ const router = useRouter()
 async function load() {
   error.value = ''
   try {
-    const { data } = await getCourses()
+    const { data } = await fetchCourses()
     courses.value = data
     if (data && data.length > 0) {
       console.log('第一筆課程資料:', data[0])
