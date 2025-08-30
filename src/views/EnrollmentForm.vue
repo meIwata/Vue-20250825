@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { fetchEnrollments, getEnrollment, createEnrollment, updateEnrollment, deleteEnrollment } from '@/api/enrollments.js'
 import { fetchStudents } from '@/api/students.js'
@@ -80,6 +80,18 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
+})
+
+watch(() => form.value.studentId, async (newStudentId) => {
+  if (!newStudentId) {
+    selectedCourseIds.value = []
+    return
+  }
+  // 取得該學生已選課程（新增模式下動態反灰）
+  const { data: enrollments } = await fetchEnrollments()
+  selectedCourseIds.value = enrollments
+    .filter(e => e.student.studentId === Number(newStudentId))
+    .map(e => e.course.courseId)
 })
 
 async function submit() {
@@ -137,7 +149,11 @@ function goBack() {
 }
 
 function isCourseDisabled(courseId) {
-  // 已選過且不是目前編輯的課程則反灰
+  // 新增模式：已選過的課程反灰
+  // 編輯模式：已選過且不是目前編輯的課程反灰
+  if (!isEdit.value) {
+    return selectedCourseIds.value.includes(courseId)
+  }
   return selectedCourseIds.value.includes(courseId)
 }
 
