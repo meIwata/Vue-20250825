@@ -15,11 +15,21 @@
     <table class="pure-table">
       <thead>
         <tr>
-          <th>學生ID</th>
-          <th>名</th>
-          <th>姓</th>
-          <th>電子郵件</th>
-          <th>生日</th>
+          <th @click="setSort('studentId')" style="cursor:pointer">學生ID
+            <span v-if="sortKey==='studentId'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
+          <th @click="setSort('firstName')" style="cursor:pointer">名
+            <span v-if="sortKey==='firstName'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
+          <th @click="setSort('lastName')" style="cursor:pointer">姓
+            <span v-if="sortKey==='lastName'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
+          <th @click="setSort('email')" style="cursor:pointer">電子郵件
+            <span v-if="sortKey==='email'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
+          <th @click="setSort('birthday')" style="cursor:pointer">生日
+            <span v-if="sortKey==='birthday'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
           <th>操作</th>
         </tr>
       </thead>
@@ -43,21 +53,51 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { fetchStudents, deleteStudent } from '@/api/students'
 
-const students = ref([])
+const studentsRaw = ref([])
 const error = ref('')
 const router = useRouter()
+
+const sortKey = ref('')
+const sortOrder = ref('desc')
+
+const students = computed(() => {
+  if (!sortKey.value) return studentsRaw.value
+  return [...studentsRaw.value].sort((a, b) => {
+    let aVal = a[sortKey.value]
+    let bVal = b[sortKey.value]
+    // 日期欄位特殊處理
+    if (sortKey.value === 'birthday') {
+      aVal = aVal ? new Date(aVal) : new Date(0)
+      bVal = bVal ? new Date(bVal) : new Date(0)
+    }
+    if (sortOrder.value === 'asc') {
+      return aVal > bVal ? 1 : aVal < bVal ? -1 : 0
+    } else {
+      return aVal < bVal ? 1 : aVal > bVal ? -1 : 0
+    }
+  })
+})
+
+function setSort(key) {
+  if (sortKey.value === key) {
+    sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+  } else {
+    sortKey.value = key
+    sortOrder.value = 'desc'
+  }
+}
 
 // 非同步函式
 async function load() {
   error.value = ''
   try {
     const { data } = await fetchStudents()
-    students.value = data
-    console.log(students.value[0])
+    studentsRaw.value = data
+    console.log(studentsRaw.value[0])
   } catch (e) {
     error.value = e?.response?.data?.message || e.message
   }

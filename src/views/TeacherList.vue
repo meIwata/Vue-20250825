@@ -13,10 +13,18 @@
     <table class="pure-table">
       <thead>
         <tr>
-          <th>教師ID</th>
-          <th>姓名</th>
-          <th>電子郵件</th>
-          <th>年齡</th>
+          <th @click="setSort('teacherId')" style="cursor:pointer">教師ID
+            <span v-if="sortKey==='teacherId'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
+          <th @click="setSort('name')" style="cursor:pointer">姓名
+            <span v-if="sortKey==='name'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
+          <th @click="setSort('email')" style="cursor:pointer">電子郵件
+            <span v-if="sortKey==='email'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
+          <th @click="setSort('age')" style="cursor:pointer">年齡
+            <span v-if="sortKey==='age'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
           <th>操作</th>
         </tr>
       </thead>
@@ -39,21 +47,44 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { fetchTeachers, deleteTeacher } from '@/api/teachers.js'
 
-const teachers = ref([])
+const teachersRaw = ref([])
 const error = ref('')
 const router = useRouter()
+
+const sortKey = ref('')
+const sortOrder = ref('desc')
+
+const teachers = computed(() => {
+  if (!sortKey.value) return teachersRaw.value
+  return [...teachersRaw.value].sort((a, b) => {
+    if (sortOrder.value === 'asc') {
+      return a[sortKey.value] > b[sortKey.value] ? 1 : a[sortKey.value] < b[sortKey.value] ? -1 : 0
+    } else {
+      return a[sortKey.value] < b[sortKey.value] ? 1 : a[sortKey.value] > b[sortKey.value] ? -1 : 0
+    }
+  })
+})
+
+function setSort(key) {
+  if (sortKey.value === key) {
+    sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+  } else {
+    sortKey.value = key
+    sortOrder.value = 'desc'
+  }
+}
 
 // 非同步函式
 async function load() {
   error.value = ''
   try {
     const { data } = await fetchTeachers()
-    teachers.value = data
-    console.log(teachers.value[0])
+    teachersRaw.value = data
+    console.log(teachersRaw.value[0])
   } catch (e) {
     error.value = e?.response?.data?.message || e.message
   }

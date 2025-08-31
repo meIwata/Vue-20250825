@@ -12,11 +12,21 @@
     <table class="pure-table">
       <thead>
         <tr>
-          <th>課程ID</th>
-          <th>課程名稱</th>
-          <th>授課教師</th>
-          <th>學分</th>
-          <th>課程說明</th>
+          <th @click="setSort('courseId')" style="cursor:pointer">課程ID
+            <span v-if="sortKey==='courseId'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
+          <th @click="setSort('courseName')" style="cursor:pointer">課程名稱
+            <span v-if="sortKey==='courseName'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
+          <th @click="setSort('teacherName')" style="cursor:pointer">授課教師
+            <span v-if="sortKey==='teacherName'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
+          <th @click="setSort('credits')" style="cursor:pointer">學分
+            <span v-if="sortKey==='credits'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
+          <th @click="setSort('courseDescription')" style="cursor:pointer">課程說明
+            <span v-if="sortKey==='courseDescription'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
           <th>操作</th>
         </tr>
       </thead>
@@ -43,19 +53,50 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { fetchCourses, deleteCourse } from '@/api/courses.js'
 
-const courses = ref([])
+const coursesRaw = ref([])
 const error = ref('')
 const router = useRouter()
+
+const sortKey = ref('')
+const sortOrder = ref('desc')
+
+const courses = computed(() => {
+  if (!sortKey.value) return coursesRaw.value
+  return [...coursesRaw.value].sort((a, b) => {
+    let aVal, bVal
+    if (sortKey.value === 'teacherName') {
+      aVal = a.teacher ? a.teacher.name : ''
+      bVal = b.teacher ? b.teacher.name : ''
+    } else {
+      aVal = a[sortKey.value]
+      bVal = b[sortKey.value]
+    }
+    if (sortOrder.value === 'asc') {
+      return aVal > bVal ? 1 : aVal < bVal ? -1 : 0
+    } else {
+      return aVal < bVal ? 1 : aVal > bVal ? -1 : 0
+    }
+  })
+})
+
+function setSort(key) {
+  if (sortKey.value === key) {
+    sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+  } else {
+    sortKey.value = key
+    sortOrder.value = 'desc'
+  }
+}
 
 async function load() {
   error.value = ''
   try {
     const { data } = await fetchCourses()
-    courses.value = data
+    coursesRaw.value = data
     if (data && data.length > 0) {
       console.log('第一筆課程資料:', data[0])
     }
