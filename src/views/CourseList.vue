@@ -24,6 +24,9 @@
           <th @click="setSort('credits')" style="cursor:pointer">學分
             <span v-if="sortKey==='credits'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
           </th>
+          <th @click="setSort('enrollmentCount')" style="cursor:pointer">已選課人數
+            <span v-if="sortKey==='enrollmentCount'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
+          </th>
           <th @click="setSort('courseDescription')" style="cursor:pointer">課程說明
             <span v-if="sortKey==='courseDescription'">{{ sortOrder==='asc'?'▲':'▼' }}</span>
           </th>
@@ -36,6 +39,7 @@
           <td>{{ course.courseName }}</td>
           <td>{{ course.teacher ? course.teacher.name : '未分配' }}</td>
           <td>{{ course.credits }}</td>
+          <td>{{ courseEnrollmentCount[course.courseId] || 0 }}</td>
           <td>
             <span v-if="course.courseDescription === null">老師目前沒有公布其他訊息</span>
             <span v-else>{{ course.courseDescription }}</span>
@@ -56,8 +60,11 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { fetchCourses, deleteCourse } from '@/api/courses.js'
+import { fetchEnrollments } from '@/api/enrollments.js'
 
 const coursesRaw = ref([])
+const enrollmentsRaw = ref([])
+const courseEnrollmentCount = ref({})
 const error = ref('')
 const router = useRouter()
 
@@ -71,6 +78,9 @@ const courses = computed(() => {
     if (sortKey.value === 'teacherName') {
       aVal = a.teacher ? a.teacher.name : ''
       bVal = b.teacher ? b.teacher.name : ''
+    } else if (sortKey.value === 'enrollmentCount') {
+      aVal = courseEnrollmentCount.value[a.courseId] || 0
+      bVal = courseEnrollmentCount.value[b.courseId] || 0
     } else {
       aVal = a[sortKey.value]
       bVal = b[sortKey.value]
@@ -95,10 +105,21 @@ function setSort(key) {
 async function load() {
   error.value = ''
   try {
-    const { data } = await fetchCourses()
-    coursesRaw.value = data
-    if (data && data.length > 0) {
-      console.log('第一筆課程資料:', data[0])
+    const [coursesRes, enrollmentsRes] = await Promise.all([
+      fetchCourses(),
+      fetchEnrollments()
+    ])
+    coursesRaw.value = coursesRes.data
+    enrollmentsRaw.value = enrollmentsRes.data
+    // 統計每門課程的選課人數
+    const countMap = {}
+    enrollmentsRaw.value.forEach(enroll => {
+      const cid = enroll.id.courseId
+      countMap[cid] = (countMap[cid] || 0) + 1
+    })
+    courseEnrollmentCount.value = countMap
+    if (coursesRes.data && coursesRes.data.length > 0) {
+      console.log('第一筆課程資料:', coursesRes.data[0])
     }
   } catch (e) {
     error.value = e?.response?.data?.message || e.message
