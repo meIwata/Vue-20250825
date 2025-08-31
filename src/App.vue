@@ -6,8 +6,9 @@ import HelloWorld from './components/HelloWorld.vue'
 <template>
   <div>
     <nav>
-      <RouterLink to="/">學生管理</RouterLink> | <RouterLink to="/teachers">教師管理</RouterLink> |
-      <RouterLink to="/courses">課程管理</RouterLink> |
+      <RouterLink to="/">學生管理</RouterLink>
+      <RouterLink to="/teachers">教師管理</RouterLink>
+      <RouterLink to="/courses">課程管理</RouterLink>
       <RouterLink to="/enrollments">選課管理</RouterLink>
     </nav>
   </div>
@@ -28,9 +29,12 @@ header {
 
 nav {
   width: 100%;
-  font-size: 12px;
+  font-size: 1.3rem;
   text-align: center;
   margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 nav a.router-link-exact-active {
@@ -44,7 +48,7 @@ nav a.router-link-exact-active:hover {
 nav a {
   display: inline-block;
   padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  border-left: 2.5px solid var(--color-border);
 }
 
 nav a:first-of-type {
@@ -69,12 +73,14 @@ nav a:first-of-type {
   }
 
   nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
+    text-align: center;
+    margin-left: 0;
+    font-size: 1.5rem;
     padding: 1rem 0;
     margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>
