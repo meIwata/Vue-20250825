@@ -1,21 +1,23 @@
 <template>
   <div class="container">
     <h1 class="title">{{ isEdit ? '編輯教師資訊' : '新增教師' }}</h1>
-    <form @submit.prevent="submit">
-      <label>姓名</label>
-      <input v-model.trim="form.name" required maxlength="100" />
-
-      <label>電子郵件</label>
-      <input v-model.trim="form.email" type="email" required maxlength="150" />
-
-      <label>年齡</label>
-      <input v-model.number="form.age" type="number" min="18" max="120" required />
-
-      <div class="actions">
-        <button class="btn" type="submit">{{ isEdit ? '更新' : '建立' }}</button>
-        <button class="btn" type="button" @click="goBack">返回</button>
+    <form class="pure-form pure-form-stacked" @submit.prevent="submit">
+      <div class="pure-control-group">
+        <label>姓名</label>
+        <input v-model.trim="form.name" required maxlength="100" />
       </div>
-
+      <div class="pure-control-group">
+        <label>電子郵件</label>
+        <input v-model.trim="form.email" type="email" required maxlength="150" />
+      </div>
+      <div class="pure-control-group">
+        <label>年齡</label>
+        <input v-model.number="form.age" type="number" min="18" max="120" required />
+      </div>
+      <div class="actions">
+        <button class="pure-button pure-button-primary" type="submit">{{ isEdit ? '更新' : '建立' }}</button>
+        <button class="pure-button" type="button" @click="goBack">返回</button>
+      </div>
       <p v-if="error" class="error">{{ error }}</p>
     </form>
   </div>
@@ -72,3 +74,70 @@ function goBack() {
   router.push('/teachers')
 }
 </script>
+
+<style scoped>
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.pure-form {
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pure-control-group {
+  margin-bottom: 1.5rem;
+}
+
+.pure-control-group label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.pure-control-group input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.error {
+  color: red;
+  margin-top: 1rem;
+}
+</style>

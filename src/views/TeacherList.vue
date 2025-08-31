@@ -3,9 +3,9 @@
     <h1 class="title">教師列表</h1>
 
     <div class="toolbar">
-      <router-link class="btn" to="/teachers/new">+ 新增教師</router-link>
-      <router-link class="btn" to="/teachers/search">使用教師ID做查詢</router-link>
-      <router-link class="btn" to="/teachers/age">使用教師年齡做查詢</router-link>
+      <router-link class="pure-button" to="/teachers/new">+ 新增教師</router-link>
+      <router-link class="pure-button" to="/teachers/search">使用教師ID做查詢</router-link>
+      <router-link class="pure-button" to="/teachers/age">使用教師年齡做查詢</router-link>
     </div>
     <div>
       共有 {{ teachers.length }} 筆資料
@@ -27,8 +27,8 @@
           <td>{{ teacher.email }}</td>
           <td>{{ teacher.age }}</td>
           <td>
-            <button class="btn" @click="edit(teacher.teacherId)">編輯</button>
-            <button class="btn danger" @click="remove(teacher.teacherId)">刪除</button>
+            <button class="pure-button" @click="edit(teacher.teacherId)">編輯</button>
+            <button class="pure-button pure-button-error" @click="remove(teacher.teacherId)">刪除</button>
           </td>
         </tr>
       </tbody>

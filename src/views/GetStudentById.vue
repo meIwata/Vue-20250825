@@ -2,8 +2,8 @@
   <div class="get-student-by-id">
     <h2>查詢學生資料</h2>
     <div class="input-row">
-      <input v-model="studentId" type="text" placeholder="請輸入學生ID" />
-      <button @click="fetchStudent">查詢</button>
+      <input v-model="studentId" type="text" placeholder="請輸入學生ID" class="pure-input" />
+      <button class="pure-button" @click="fetchStudent">查詢</button>
     </div>
     <div v-if="error" class="error">{{ error }}</div>
     <div v-if="student">

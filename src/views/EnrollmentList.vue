@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title">選課列表</h1>
     <div class="toolbar">
-      <router-link class="btn" to="/enrollments/new">+ 新增選課</router-link>
+      <router-link class="pure-button" to="/enrollments/new">+ 新增選課</router-link>
     </div>
     <div>
       共有 {{ enrollments.length }} 筆資料
@@ -26,8 +26,8 @@
           <td>{{ enrollment.course.courseName }}</td>
           <td>{{ enrollment.enrollDate ? enrollment.enrollDate.substring(0, 10) : '' }}</td>
           <td>
-            <button class="btn" @click="edit(enrollment.id.studentId, enrollment.id.courseId)">編輯</button>
-            <button class="btn danger" @click="remove(enrollment.id.studentId, enrollment.id.courseId)">刪除</button>
+            <button class="pure-button" @click="edit(enrollment.id.studentId, enrollment.id.courseId)">編輯</button>
+            <button class="pure-button pure-button-error" @click="remove(enrollment.id.studentId, enrollment.id.courseId)">刪除</button>
           </td>
         </tr>
       </tbody>

@@ -3,8 +3,8 @@
     <h1 class="title">課程列表</h1>
 
     <div class="toolbar">
-      <router-link class="btn" to="/courses/new">+ 新增課程</router-link>
-      <router-link class="btn" to="/courses/search">使用課程ID做查詢</router-link>
+      <router-link class="pure-button" to="/courses/new">+ 新增課程</router-link>
+      <router-link class="pure-button" to="/courses/search">使用課程ID做查詢</router-link>
     </div>
     <div>
       共有 {{ courses.length }} 筆資料
@@ -31,8 +31,8 @@
             <span v-else>{{ course.courseDescription }}</span>
           </td>
           <td>
-            <button class="btn" @click="edit(course.courseId)">編輯</button>
-            <button class="btn danger" @click="remove(course.courseId)">刪除</button>
+            <button class="pure-button" @click="edit(course.courseId)">編輯</button>
+            <button class="pure-button pure-button-error" @click="remove(course.courseId)">刪除</button>
           </td>
         </tr>
       </tbody>

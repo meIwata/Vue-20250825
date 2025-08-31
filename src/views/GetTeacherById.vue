@@ -2,8 +2,8 @@
   <div class="get-teacher-by-id">
     <h2>查詢教師資料</h2>
     <div class="input-row">
-      <input v-model="teacherId" type="text" placeholder="請輸入教師ID" />
-      <button @click="fetchTeacher">查詢</button>
+      <input v-model="teacherId" type="text" placeholder="請輸入教師ID" class="pure-input" />
+      <button class="pure-button" @click="fetchTeacher">查詢</button>
     </div>
     <div v-if="error" class="error">{{ error }}</div>
     <div v-if="teacher">

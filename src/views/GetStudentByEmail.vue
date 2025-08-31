@@ -2,8 +2,8 @@
   <div class="get-student-by-email">
     <h2>依電子郵件查詢學生</h2>
     <div class="input-row">
-      <input v-model="email" type="email" placeholder="請輸入學生電子郵件" />
-      <button @click="fetchStudent">查詢</button>
+      <input v-model="email" type="email" placeholder="請輸入學生電子郵件" class="pure-input" />
+      <button class="pure-button" @click="fetchStudent">查詢</button>
     </div>
     <div v-if="loading" style="margin-top: 16px;">查詢中...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
@@ -84,4 +84,3 @@ li {
   padding-bottom: 8px;
 }
 </style>
-

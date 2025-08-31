@@ -2,8 +2,8 @@
   <div class="get-students-by-lastname">
     <h2>依姓氏查詢學生</h2>
     <div class="input-row">
-      <input v-model="lastName" type="text" placeholder="請輸入學生姓氏" />
-      <button @click="fetchStudents">查詢</button>
+      <input v-model="lastName" type="text" placeholder="請輸入學生姓氏" class="pure-input" />
+      <button class="pure-button" @click="fetchStudents">查詢</button>
     </div>
     <div v-if="loading" style="margin-top: 16px;">查詢中...</div>
     <div v-else-if="error" class="error">{{ error }}</div>

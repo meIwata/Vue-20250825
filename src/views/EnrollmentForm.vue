@@ -1,33 +1,34 @@
 <template>
   <div class="container">
     <h1 class="title">{{ isEdit ? '編輯選課' : '新增選課' }}</h1>
-    <form @submit.prevent="submit">
-      <label>學生</label>
-      <template v-if="isEdit">
-        <input type="text" :value="getStudentName(form.studentId)" readonly class="readonly-field" />
-      </template>
-      <template v-else>
-        <select v-model="form.studentId" required>
-          <option value="" disabled>請選擇學生</option>
-          <option v-for="student in students" :key="student.studentId" :value="student.studentId">
-            {{ student.firstName }} {{ student.lastName }} (ID: {{ student.studentId }})
+    <form class="pure-form pure-form-stacked" @submit.prevent="submit">
+      <div class="pure-control-group">
+        <label>學生</label>
+        <template v-if="isEdit">
+          <input type="text" :value="getStudentName(form.studentId)" readonly class="readonly-field" />
+        </template>
+        <template v-else>
+          <select v-model="form.studentId" required>
+            <option value="" disabled>請選擇學生</option>
+            <option v-for="student in students" :key="student.studentId" :value="student.studentId">
+              {{ student.firstName }} {{ student.lastName }} (ID: {{ student.studentId }})
+            </option>
+          </select>
+        </template>
+      </div>
+      <div class="pure-control-group">
+        <label>課程</label>
+        <select v-model="form.courseId" required>
+          <option value="" disabled>請選擇課程</option>
+          <option v-for="course in courses" :key="course.courseId" :value="course.courseId" :disabled="isCourseDisabled(course.courseId)">
+            {{ course.courseName }} (ID: {{ course.courseId }})
           </option>
         </select>
-      </template>
-
-      <label>課程</label>
-      <select v-model="form.courseId" required>
-        <option value="" disabled>請選擇課程</option>
-        <option v-for="course in courses" :key="course.courseId" :value="course.courseId" :disabled="isCourseDisabled(course.courseId)">
-          {{ course.courseName }} (ID: {{ course.courseId }})
-        </option>
-      </select>
-
-      <div class="actions">
-        <button class="btn" type="submit">{{ isEdit ? '更新' : '建立' }}</button>
-        <button class="btn" type="button" @click="goBack">返回</button>
       </div>
-
+      <div class="actions">
+        <button class="pure-button pure-button-primary" type="submit">{{ isEdit ? '更新' : '建立' }}</button>
+        <button class="pure-button" type="button" @click="goBack">返回</button>
+      </div>
       <p v-if="error" class="error">{{ error }}</p>
     </form>
     <p v-if="loading">載入中...</p>
@@ -162,3 +163,10 @@ function getStudentName(studentId) {
   return student ? `${student.firstName} ${student.lastName} (ID: ${student.studentId})` : ''
 }
 </script>
+
+<style scoped>
+select {
+  height: 44px;
+  box-sizing: border-box;
+}
+</style>

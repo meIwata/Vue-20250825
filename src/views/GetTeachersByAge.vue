@@ -2,8 +2,8 @@
   <div class="get-teachers-by-age">
     <h2>依年齡查詢教師</h2>
     <div class="input-row">
-      <input v-model="age" type="number" placeholder="請輸入教師年齡" />
-      <button @click="fetchTeachers">查詢</button>
+      <input v-model="age" type="number" placeholder="請輸入教師年齡" class="pure-input" />
+      <button class="pure-button" @click="fetchTeachers">查詢</button>
     </div>
     <div v-if="loading" style="margin-top: 16px;">查詢中...</div>
     <div v-else-if="error" class="error">{{ error }}</div>

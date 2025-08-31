@@ -1,24 +1,27 @@
 <template>
   <div class="container">
     <h1 class="title">{{ isEdit ? '編輯學生資訊' : '新增學生' }}</h1>
-    <form @submit.prevent="submit">
-      <label>名字</label>
-      <input v-model.trim="form.firstName" required maxlength="100" />
-
-      <label>姓氏</label>
-      <input v-model.trim="form.lastName" required maxlength="100" />
-
-      <label>電子郵件</label>
-      <input v-model.trim="form.email" type="email" required maxlength="150" />
-
-      <label>生日</label>
-      <input v-model.trim="form.birthday" type="date" required />
-
-      <div class="actions">
-        <button class="btn" type="submit">{{ isEdit ? '更新' : '建立' }}</button>
-        <button class="btn" type="button" @click="goBack">返回</button>
+    <form class="pure-form pure-form-stacked" @submit.prevent="submit">
+      <div class="pure-control-group">
+        <label>名字</label>
+        <input v-model.trim="form.firstName" required maxlength="100" />
       </div>
-
+      <div class="pure-control-group">
+        <label>姓氏</label>
+        <input v-model.trim="form.lastName" required maxlength="100" />
+      </div>
+      <div class="pure-control-group">
+        <label>電子郵件</label>
+        <input v-model.trim="form.email" type="email" required maxlength="150" />
+      </div>
+      <div class="pure-control-group">
+        <label>生日</label>
+        <input v-model.trim="form.birthday" type="date" required />
+      </div>
+      <div class="actions">
+        <button class="pure-button pure-button-primary" type="submit">{{ isEdit ? '更新' : '建立' }}</button>
+        <button class="pure-button" type="button" @click="goBack">返回</button>
+      </div>
       <p v-if="error" class="error">{{ error }}</p>
     </form>
   </div>

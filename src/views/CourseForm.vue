@@ -1,29 +1,32 @@
 <template>
   <div class="container">
     <h1 class="title">{{ isEdit ? '編輯課程' : '新增課程' }}</h1>
-    <form @submit.prevent="submit">
-      <label>課程名稱</label>
-      <input v-model.trim="form.courseName" required maxlength="100" />
-
-      <label>學分</label>
-      <input type="number" v-model.number="form.credits" required min="1" max="10" />
-
-      <label>課程說明</label>
-      <textarea v-model.trim="form.courseDescription" maxlength="500"></textarea>
-
-      <label>授課教師</label>
-      <select v-model="form.teacherId" required>
-        <option value="" disabled>請選擇老師</option>
-        <option v-for="teacher in teachers" :key="teacher.teacherId" :value="teacher.teacherId">
-          {{ teacher.name }} (ID: {{ teacher.teacherId }})
-        </option>
-      </select>
-
-      <div class="actions">
-        <button class="btn" type="submit">{{ isEdit ? '更新' : '建立' }}</button>
-        <button class="btn" type="button" @click="goBack">返回</button>
+    <form class="pure-form pure-form-stacked" @submit.prevent="submit">
+      <div class="pure-control-group">
+        <label>課程名稱</label>
+        <input v-model.trim="form.courseName" required maxlength="100" />
       </div>
-
+      <div class="pure-control-group">
+        <label>學分</label>
+        <input type="number" v-model.number="form.credits" required min="1" max="10" />
+      </div>
+      <div class="pure-control-group">
+        <label>課程說明</label>
+        <textarea v-model.trim="form.courseDescription" maxlength="500"></textarea>
+      </div>
+      <div class="pure-control-group">
+        <label>授課教師</label>
+        <select v-model="form.teacherId" required>
+          <option value="" disabled>請選擇老師</option>
+          <option v-for="teacher in teachers" :key="teacher.teacherId" :value="teacher.teacherId">
+            {{ teacher.name }} (ID: {{ teacher.teacherId }})
+          </option>
+        </select>
+      </div>
+      <div class="actions">
+        <button class="pure-button pure-button-primary" type="submit">{{ isEdit ? '更新' : '建立' }}</button>
+        <button class="pure-button" type="button" @click="goBack">返回</button>
+      </div>
       <p v-if="error" class="error">{{ error }}</p>
     </form>
     <p v-if="loading">載入中...</p>
@@ -97,3 +100,10 @@ function goBack() {
   router.push('/courses')
 }
 </script>
+
+<style scoped>
+select {
+  height: 44px;
+  box-sizing: border-box;
+}
+</style>

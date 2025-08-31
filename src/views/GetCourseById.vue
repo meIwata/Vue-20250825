@@ -2,8 +2,8 @@
   <div class="get-course-by-id">
     <h2>查詢課程資料</h2>
     <div class="input-row">
-      <input v-model="courseId" type="text" placeholder="請輸入課程ID" />
-      <button @click="fetchCourse">查詢</button>
+      <input v-model="courseId" type="text" placeholder="請輸入課程ID" class="pure-input" />
+      <button class="pure-button" @click="fetchCourse">查詢</button>
     </div>
     <div v-if="error" class="error">{{ error }}</div>
     <div v-if="course">
