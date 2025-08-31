@@ -10,7 +10,7 @@
     <div>
       共有 {{ teachers.length }} 筆資料
     </div>
-    <table class="table">
+    <table class="pure-table">
       <thead>
         <tr>
           <th>教師ID</th>
@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="teacher in teachers" :key="teacher.teacherId">
+        <tr v-for="(teacher, idx) in teachers" :key="teacher.teacherId" :class="{ 'pure-table-odd': idx % 2 === 1 }">
           <td>{{ teacher.teacherId }}</td>
           <td>{{ teacher.name }}</td>
           <td>{{ teacher.email }}</td>
@@ -76,60 +76,4 @@ async function remove(id) {
 onMounted(load)
 </script>
 
-<style scoped>
-.container {
-  max-width: 960px;
-  margin: 24px auto;
-  padding: 0 12px;
-}
-
-.title {
-  margin-bottom: 12px;
-}
-
-.toolbar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.spacer {
-  flex: 1;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th,
-.table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-.btn {
-  padding: 6px 10px;
-  margin-right: 6px;
-  border: 1px solid #999;
-  background: #f7f7f7;
-  cursor: pointer;
-  text-decoration: none;
-  color: #333;
-}
-
-.btn.danger {
-  border-color: #c33;
-}
-
-.pager {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.error {
-  color: #c33;
-}
-</style>
+<!-- 移除重複 style，全部統一用 base.css -->
